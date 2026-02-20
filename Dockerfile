@@ -1,20 +1,20 @@
-#  base image 
-FROM python:3.10-slim 
+# Base image
+FROM python:3.10-slim
 
-# working directory inside container 
-WORKDIR /app 
+# Working directory
+WORKDIR /app
 
-# copy files 
-COPY requirements.txt .        
+# Copy requirements first (better caching)
+COPY requirements.txt .
 
-#  install dependincy 
-RUN pip install --no-cache-dir -r requirements.txt 
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-# copy all files.. 
-COPY . .   
+# Copy all project files
+COPY . .
 
-# expose port 
-EXPOSE 8000 
+# Expose default port (documentation purpose)
+EXPOSE 8000
 
-# run application 
-CMD ["python","app.py"]
+# Run FastAPI using dynamic PORT
+CMD ["sh", "-c", "uvicorn app:app --host 0.0.0.0 --port ${PORT:-8000}"]
