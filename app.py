@@ -15,6 +15,7 @@ class Base_class(BaseModel):
 
 app=FastAPI()  
 model = mlflow.pyfunc.load_model('runs:/3a6f785cd536466d931010c82ca86f22/iris_model') 
+model.save_model("iris_model")
 
 @app.get('/')
 def home_page():
